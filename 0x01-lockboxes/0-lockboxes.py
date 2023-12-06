@@ -1,4 +1,9 @@
+#!/usr/bin/python3
+''' This is a lockbox function '''
+
+
 def canUnlockAll(boxes):
+    ''' check if boxes are opened '''
     # Set to keep track of opened boxes
     opened_boxes = set()
     # The first box is initially opened
