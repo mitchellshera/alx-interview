@@ -7,8 +7,11 @@ def canUnlockAll(boxes):
     opened_boxes = set()
     opened_boxes.add(0)
 
-    for box_index, keys in enumerate(boxes):
-        if box_index in opened_boxes:
-            opened_boxes.update(keys)
+    for key in opened_boxes.copy():
+        # Iterate through the keys in the currently opened boxes
+        for box_index in boxes[key]:
+            # Update the set of opened boxes
+            # with the keys inside the current box
+            opened_boxes.add(box_index)
 
     return len(opened_boxes) == len(boxes)
