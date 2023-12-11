@@ -3,23 +3,29 @@
 
 
 def canUnlockAll(boxes):
-    ''' check if boxes are opened '''
-    opened_boxes = set()
-    opened_boxes.add(0)
+  """
+  This function determines if all the boxes can be opened.
 
-    # Keep track of newly discovered keys
-    new_keys = set(boxes[0])
+  Args:
+    boxes: A list of lists, where each inner list contains keys to open other boxes.
 
-    while new_keys:
-        # Update the set of opened boxes with the newly discovered keys
-        opened_boxes.update(new_keys)
+  Returns:
+    True if all boxes can be opened, False otherwise.
+  """
+  # Keep track of opened boxes
+  opened = set([0])
 
-        # Find new keys in the newly opened boxes
-        new_keys = set()
-        for key in opened_boxes:
-            new_keys.update(boxes[key])
+  # Iterate until no new boxes are opened
+  while True:
+    new_opened = False
+    for i, box in enumerate(boxes):
+      if i in opened:
+        for key in box:
+          if key not in opened and key < len(boxes):
+            new_opened = True
+            opened.add(key)
+    if not new_opened:
+      break
 
-        # Exclude already opened boxes from the set of new keys
-        new_keys -= opened_boxes
-
-    return len(opened_boxes) == len(boxes)
+  # Check if all boxes are opened
+  return len(opened) == len(boxes)
