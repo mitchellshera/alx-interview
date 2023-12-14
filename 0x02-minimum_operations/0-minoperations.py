@@ -5,7 +5,6 @@
 def minOperations(n):
     """minoperations to get n amount of H """
 
-
     operations = 0
     min_operations = 2
     while n > 1:
