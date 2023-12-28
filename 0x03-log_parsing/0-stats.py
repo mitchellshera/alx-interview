@@ -4,6 +4,7 @@
 
 import sys
 
+
 def print_stats(status_counts, total_size):
     """
     Print statistics based on status counts and total size.
