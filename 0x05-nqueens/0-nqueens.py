@@ -5,7 +5,9 @@ N-Queens Problem Solver
 
 import sys
 
-def backtrack(row, n, occupied_cols, positive_diagonals, negative_diagonals, chessboard):
+
+def backtrack(row, n, occupied_cols,
+              positive_diagonals, negative_diagonals, chessboard):
     """
     Backtracking function to find solutions for the N-Queens problem.
     """
@@ -19,7 +21,8 @@ def backtrack(row, n, occupied_cols, positive_diagonals, negative_diagonals, che
         return
 
     for col in range(n):
-        if col in occupied_cols or (row + col) in positive_diagonals or (row - col) in negative_diagonals:
+        if col in occupied_cols or (row + col) in \
+                positive_diagonals or (row - col) in negative_diagonals:
             continue
 
         occupied_cols.add(col)
@@ -27,12 +30,15 @@ def backtrack(row, n, occupied_cols, positive_diagonals, negative_diagonals, che
         negative_diagonals.add(row - col)
         chessboard[row][col] = 1
 
-        backtrack(row + 1, n, occupied_cols, positive_diagonals, negative_diagonals, chessboard)
+        backtrack(
+            row + 1, n, occupied_cols, positive_diagonals,
+            negative_diagonals, chessboard)
 
         occupied_cols.remove(col)
         positive_diagonals.remove(row + col)
         negative_diagonals.remove(row - col)
         chessboard[row][col] = 0
+
 
 def solve_nqueens(n):
     """
@@ -45,7 +51,10 @@ def solve_nqueens(n):
     negative_diagonals = set()
     chessboard = [[0] * n for _ in range(n)]
 
-    backtrack(0, n, occupied_cols, positive_diagonals, negative_diagonals, chessboard)
+    backtrack(
+        0, n, occupied_cols, positive_diagonals,
+        negative_diagonals, chessboard)
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
