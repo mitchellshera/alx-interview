@@ -1,57 +1,51 @@
 #!/usr/bin/python3
-'''module for nqueens'''
-
+"""
+N-Queens Problem Solver
+"""
 
 import sys
 
-
-def is_safe(board, row, col, n):
-    # Check if there is a queen in the same row
-    for i in range(col):
-        if board[row][i] == 1:
-            return False
-
-    # Check if there is a queen in the upper diagonal on the left
-    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
-        if board[i][j] == 1:
-            return False
-
-    # Check if there is a queen in the lower diagonal on the left
-    for i, j in zip(range(row, n, 1), range(col, -1, -1)):
-        if board[i][j] == 1:
-            return False
-
-    return True
-
-
-def solve_nqueens_util(board, col, n, solutions):
-    if col == n:
-        solutions.append([[row, col] for row in range(n)])
+def backtrack(row, n, occupied_cols, positive_diagonals, negative_diagonals, chessboard):
+    """
+    Backtracking function to find solutions for the N-Queens problem.
+    """
+    if row == n:
+        solution = []
+        for r in range(len(chessboard)):
+            for c in range(len(chessboard[r])):
+                if chessboard[r][c] == 1:
+                    solution.append([r, c])
+        print(solution)
         return
 
-    for i in range(n):
-        if is_safe(board, i, col, n):
-            board[i][col] = 1
-            solve_nqueens_util(board, col + 1, n, solutions)
-            board[i][col] = 0
+    for col in range(n):
+        if col in occupied_cols or (row + col) in positive_diagonals or (row - col) in negative_diagonals:
+            continue
 
+        occupied_cols.add(col)
+        positive_diagonals.add(row + col)
+        negative_diagonals.add(row - col)
+        chessboard[row][col] = 1
+
+        backtrack(row + 1, n, occupied_cols, positive_diagonals, negative_diagonals, chessboard)
+
+        occupied_cols.remove(col)
+        positive_diagonals.remove(row + col)
+        negative_diagonals.remove(row - col)
+        chessboard[row][col] = 0
 
 def solve_nqueens(n):
-    if not isinstance(n, int):
-        print("N must be a number")
-        sys.exit(1)
+    """
+    Solves the N-Queens problem and prints all possible solutions.
+    Args:
+        n (int): Number of queens. Must be >= 4.
+    """
+    occupied_cols = set()
+    positive_diagonals = set()
+    negative_diagonals = set()
+    chessboard = [[0] * n for _ in range(n)]
 
-    if n < 4:
-        print("N must be at least 4")
-        sys.exit(1)
-
-    board = [[0 for _ in range(n)] for _ in range(n)]
-    solutions = []
-    solve_nqueens_util(board, 0, n, solutions)
-
-    for solution in solutions:
-        print(solution)
-
+    backtrack(0, n, occupied_cols, positive_diagonals, negative_diagonals, chessboard)
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -60,6 +54,9 @@ if __name__ == "__main__":
 
     try:
         N = int(sys.argv[1])
+        if N < 4:
+            print("N must be at least 4")
+            sys.exit(1)
         solve_nqueens(N)
     except ValueError:
         print("N must be a number")
