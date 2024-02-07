@@ -1,11 +1,14 @@
 #!/usr/bin/python3
+'''module for island perimeter problem'''
+
 
 def island_perimeter(grid):
     """
     Returns the perimeter of the island described in the grid.
 
     Args:
-    - grid (list of list of integers): 2D grid where 0 represents water and 1 represents land.
+    - grid (list of list of integers): 2D
+    grid where 0 represents water and 1 represents land.
 
     Returns:
     - int: Perimeter of the island.
